@@ -1,43 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 2932:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const core = __nccwpck_require__(2186)
-const  github  = __nccwpck_require__(5438)
-
-
-async function run() {
-  try {
-    const token = core.getIDToken('token')
-    const title = core.getIDToken('title')
-    const body = core.getIDToken('body')
-    const assignees = core.getIDToken('assignees')
-    const octokit = github.getOctokit(token)
-    const response = await octokit.rest.issues.create(
-     // {owner: github.context.repo.owner, repo:github.context.repo.repo}
-     {...github.context.repo,
-      title,
-       body,
-       assignees: assignees ? assignees.split("\n") : undefined,
-      }
-
-    )
-    core.setOutput('issue', response.data)
-
-  } catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-module.exports = {
-  run
-}
-
-
-/***/ }),
-
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -34508,12 +34471,40 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(2932);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+const core = __nccwpck_require__(2186);
+const github = __nccwpck_require__(5438);
+
+// most @actions toolkit packages have async methods
+async function run() {
+  try {
+    const token = core.getInput("token");
+    const title = core.getInput("title");
+    const body = core.getInput("body");
+    const assignees = core.getInput("assignees");
+
+    const octokit = github.getOctokit(token);
+
+    const response = await octokit.rest.issues.create({
+      // owner: github.context.repo.owner,
+      // repo: github.context.repo.repo,
+      ...github.context.repo,
+      title,
+      body,
+      assignees: assignees ? assignees.split("\n") : undefined,
+    });
+
+    core.setOutput("issue", response.data);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+
+run();
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;
