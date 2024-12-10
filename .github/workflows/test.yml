@@ -27,5 +27,5 @@ jobs:
           title: Test Issue
           body: Test issue body
           assignees: |
-            ikramtouir
+            alialaa
       - run: echo ${{ steps.issue.outputs.issue }}
