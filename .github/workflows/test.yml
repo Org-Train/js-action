@@ -21,7 +21,7 @@ jobs:
     needs: units
     steps:
       - uses: actions/checkout@v3
-      - uses: ./
+      - uses: ./github/actions
         id: issue
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
