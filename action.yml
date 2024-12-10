@@ -1,5 +1,5 @@
 name: "Open a Github Issue (Testing)"
-author: Ekram Touir
+author: Ikram Touir
 description: "Opens a github issue"
 inputs:
   token:
